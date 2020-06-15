@@ -1,4 +1,18 @@
+// MongoDB_Connection: mongodb+srv://phantware:<password>@cluster0-tie57.mongodb.net/<dbname>?retryWrites=true&w=majority
 const express = require('express');
+const mongoose = require('mongoose');
+
+mongoose
+  .connect(
+    'mongodb+srv://phantware:jamiu12345@cluster0-tie57.mongodb.net/<dbname>?retryWrites=true&w=majority'
+  )
+  .then(() => {
+    console.log('successfully connected to mongodb');
+  })
+  .catch((err) => {
+    console.log('unable to connect to mongodb atlas');
+    console.log(err);
+  });
 
 const app = express();
 // This will ebable CORS rule

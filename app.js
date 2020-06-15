@@ -14,7 +14,16 @@ app.use((req, res, next) => {
   );
   next();
 });
+app.use(express.json());
 
+app.post('/api/stuff', (req, res, next) => {
+  console.log(req.body);
+  res.status(200).json({
+    message: 'things created successfully',
+  });
+  next();
+  return;
+});
 // My Endpoints
 app.use('/api/stuff', (req, res, next) => {
   const stuff = [
@@ -37,7 +46,7 @@ app.use('/api/stuff', (req, res, next) => {
       userId: 'qsomihvqios',
     },
   ];
-  res.status(200).json(stuff);
+  return res.status(200).json(stuff);
 });
 
 module.exports = app;

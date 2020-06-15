@@ -4,6 +4,9 @@
   "main": "server.js",
   "author": "Ismail Jamiu Babatunde",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "dependencies": {
     "express": "^4.17.1"
   }

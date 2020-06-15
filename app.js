@@ -20,7 +20,7 @@ app.use('/api/stuff', (req, res, next) => {
   const stuff = [
     {
       _id: 'oeihfzeoi',
-      title: 'My first thing',
+      title: 'My first thing.',
       description: 'All of the info about my first thing',
       imageUrl:
         'https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',

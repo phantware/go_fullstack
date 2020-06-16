@@ -15,6 +15,7 @@ mongoose
   });
 
 const stuffRoute = require('./routes/stuff');
+const userRoute = require('./routes/users');
 
 const app = express();
 // This will ebable CORS rule
@@ -32,5 +33,6 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use('/api/stuff', stuffRoute);
+app.use('/api/auth', userRoute);
 
 module.exports = app;

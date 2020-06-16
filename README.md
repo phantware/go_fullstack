@@ -9,13 +9,13 @@ cd go_fullstack
 cd backend
 
 
-Install dependencies
+# Install dependencies
 Run npm install
 
-Start server
+# Start server
 Run node server.js or nodemon server.js
 
-Start the frontend app
+# Start the frontend app
 Run ng serve
 
 Navigate to http://localhost:4200 to start testing the endpoint

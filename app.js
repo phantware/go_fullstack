@@ -14,7 +14,7 @@ mongoose
     console.log(err);
   });
 
-const Thing = require('./models/thing');
+const stuffRoute = require('./routes/stuff');
 
 const app = express();
 // This will ebable CORS rule
@@ -31,80 +31,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
-
-app.post('/api/stuff', (req, res, next) => {
-  const thing = new Thing({
-    title: req.body.title,
-    description: req.body.description,
-    imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId,
-  });
-  thing
-    .save()
-    .then(() => {
-      res.status(201).json({
-        message: 'Post saved successfully!',
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-});
-
-app.get('/api/stuff/:id', (req, res) => {
-  Thing.findOne({ _d: req.params.id })
-    .then((thing) => {
-      res.status(200).json(things);
-    })
-    .catch((error) => {
-      res.status(400).json({ error: error });
-    });
-});
-
-app.put('/api/stuff/:id', (req, res) => {
-  const thing = new Thing({
-    _id: req.params.id,
-    title: req.body.title,
-    description: req.body.description,
-    imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId,
-  });
-  Thing.updateOne({ _id: req.params.id }, thing)
-    .then(() => {
-      res.status(201).json({ message: 'Thing updated successfully' });
-    })
-    .catch((error) => {
-      res.status(400).json({ error: error });
-    });
-});
-app.delete('/api/stuff/:id', (req, res, next) => {
-  Thing.deleteOne({ _id: req.params.id })
-    .then(() => {
-      res.status(200).json({
-        message: 'Deleted!',
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-});
-// My Endpoints
-app.use('/api/stuff', (req, res, next) => {
-  Thing.find()
-    .then((things) => {
-      res.status(200).json(things);
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-});
+app.use('/api/stuff', stuffRoute);
 
 module.exports = app;

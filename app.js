@@ -14,6 +14,8 @@ mongoose
     console.log(err);
   });
 
+const Thing = require('./models/thing');
+
 const app = express();
 // This will ebable CORS rule
 app.use((req, res, next) => {
@@ -31,36 +33,78 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.post('/api/stuff', (req, res, next) => {
-  console.log(req.body);
-  res.status(200).json({
-    message: 'things created successfully',
+  const thing = new Thing({
+    title: req.body.title,
+    description: req.body.description,
+    imageUrl: req.body.imageUrl,
+    price: req.body.price,
+    userId: req.body.userId,
   });
-  next();
-  return;
+  thing
+    .save()
+    .then(() => {
+      res.status(201).json({
+        message: 'Post saved successfully!',
+      });
+    })
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
+});
+
+app.get('/api/stuff/:id', (req, res) => {
+  Thing.findOne({ _d: req.params.id })
+    .then((thing) => {
+      res.status(200).json(things);
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error });
+    });
+});
+
+app.put('/api/stuff/:id', (req, res) => {
+  const thing = new Thing({
+    _id: req.params.id,
+    title: req.body.title,
+    description: req.body.description,
+    imageUrl: req.body.imageUrl,
+    price: req.body.price,
+    userId: req.body.userId,
+  });
+  Thing.updateOne({ _id: req.params.id }, thing)
+    .then(() => {
+      res.status(201).json({ message: 'Thing updated successfully' });
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error });
+    });
+});
+app.delete('/api/stuff/:id', (req, res, next) => {
+  Thing.deleteOne({ _id: req.params.id })
+    .then(() => {
+      res.status(200).json({
+        message: 'Deleted!',
+      });
+    })
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
 });
 // My Endpoints
 app.use('/api/stuff', (req, res, next) => {
-  const stuff = [
-    {
-      _id: 'oeihfzeoi',
-      title: 'My first thing.',
-      description: 'All of the info about my first thing',
-      imageUrl:
-        'https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
-      price: 4900,
-      userId: 'qsomihvqios',
-    },
-    {
-      _id: 'oeihfzeomoihi',
-      title: 'My second thing',
-      description: 'All of the info about my second thing',
-      imageUrl:
-        'https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
-      price: 2900,
-      userId: 'qsomihvqios',
-    },
-  ];
-  return res.status(200).json(stuff);
+  Thing.find()
+    .then((things) => {
+      res.status(200).json(things);
+    })
+    .catch((error) => {
+      res.status(400).json({
+        error: error,
+      });
+    });
 });
 
 module.exports = app;

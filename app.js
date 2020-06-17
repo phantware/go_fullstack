@@ -1,6 +1,7 @@
 // MongoDB_Connection: mongodb+srv://phantware:<password>@cluster0-tie57.mongodb.net/<dbname>?retryWrites=true&w=majority
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 
 mongoose
   .connect(
@@ -32,7 +33,8 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/stuff', stuffRoute);
-app.use('/api/auth', userRoute);
+app.use('/api', userRoute);
 
 module.exports = app;
